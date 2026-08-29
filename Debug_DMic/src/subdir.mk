@@ -1,0 +1,35 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+################################################################################
+
+# Add inputs and outputs from these tool invocations to the build variables 
+C_SRCS += \
+../src/AudioRecord.c \
+../src/hal_entry.c \
+../src/lpm_adc.c \
+../src/voice_main.c 
+
+C_DEPS += \
+./src/AudioRecord.d \
+./src/hal_entry.d \
+./src/lpm_adc.d \
+./src/voice_main.d 
+
+OBJS += \
+./src/AudioRecord.o \
+./src/hal_entry.o \
+./src/lpm_adc.o \
+./src/voice_main.o 
+
+SREC += \
+ra2l1_voice_vc_ds22x.srec 
+
+MAP += \
+ra2l1_voice_vc_ds22x.map 
+
+
+# Each subdirectory must supply rules for building sources it contributes
+src/%.o: ../src/%.c
+	$(file > $@.in,-mcpu=cortex-m23 -mthumb -Oz -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -Wunused -Wuninitialized -Wall -Wextra -Wmissing-declarations -Wconversion -Wpointer-arith -Wshadow -Wlogical-op -Waggregate-return -Wfloat-equal -g -D_RENESAS_RA_ -D_RA_CORE=CM23 -D_RA_ORDINAL=1 -DMCU_BOARD=MCU_BOARD_RA2L1_VOICE -DAUDIO_RECORD=AUDIO_RECORD_SPI -DUART_LOG -I"C:/Users/a5166677/e2_studio/workspace/ra2l1_voice_vc_ds22x/ra2l1_voice_vc_ds22x/src" -I"C:/Users/a5166677/e2_studio/workspace/ra2l1_voice_vc_ds22x/ra2l1_voice_vc_ds22x/ra/fsp/inc" -I"C:/Users/a5166677/e2_studio/workspace/ra2l1_voice_vc_ds22x/ra2l1_voice_vc_ds22x/ra/fsp/inc/api" -I"C:/Users/a5166677/e2_studio/workspace/ra2l1_voice_vc_ds22x/ra2l1_voice_vc_ds22x/ra/fsp/inc/instances" -I"C:/Users/a5166677/e2_studio/workspace/ra2l1_voice_vc_ds22x/ra2l1_voice_vc_ds22x/ra_gen" -I"C:/Users/a5166677/e2_studio/workspace/ra2l1_voice_vc_ds22x/ra2l1_voice_vc_ds22x/ra_cfg/fsp_cfg/bsp" -I"C:/Users/a5166677/e2_studio/workspace/ra2l1_voice_vc_ds22x/ra2l1_voice_vc_ds22x/ra_cfg/fsp_cfg" -I"C:/Users/a5166677/e2_studio/workspace/ra2l1_voice_vc_ds22x/ra2l1_voice_vc_ds22x/src/DSpotter" -I"C:/Users/a5166677/e2_studio/workspace/ra2l1_voice_vc_ds22x/ra2l1_voice_vc_ds22x/src/DSpotter/include" -I"C:/Users/a5166677/e2_studio/workspace/ra2l1_voice_vc_ds22x/ra2l1_voice_vc_ds22x/src/Util" -I"C:/Users/a5166677/e2_studio/workspace/ra2l1_voice_vc_ds22x/ra2l1_voice_vc_ds22x/src/Speex/include" -I"." -I"C:/Users/a5166677/e2_studio/workspace/ra2l1_voice_vc_ds22x/ra2l1_voice_vc_ds22x/ra/arm/CMSIS_6/CMSIS/Core/Include" -std=c99 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -c -o "$@" -x c "$<")
+	@echo Building file: $< && arm-none-eabi-gcc @"$@.in"
+

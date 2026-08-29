@@ -1,0 +1,91 @@
+T5EFC 000:001.729   SEGGER J-Link V8.92 Log File
+T5EFC 000:002.261   DLL Compiled: Dec  3 2025 16:42:11
+T5EFC 000:002.334   Logging started @ 2026-08-28 23:49
+T5EFC 000:002.444   Process: C:\Users\a5166677\.eclipse\com.renesas.platform_1181625457\DebugComp\RA\e2-server-gdb.exe
+T5EFC 000:002.498 - 2.487ms 
+T5EFC 000:002.561 JLINK_GetDLLVersion()
+T5EFC 000:002.601 - 0.041ms returns 89200
+T5EFC 000:012.729 JLINK_OpenEx(...)
+T5EFC 000:029.915   Firmware: J-Link OB-S124 compiled May 10 2023 09:55:15
+T5EFC 000:031.618   Firmware: J-Link OB-S124 compiled May 10 2023 09:55:15
+T5EFC 000:034.144   Looking for J-Link GUI Server exe at: C:\Users\a5166677\.eclipse\com.renesas.platform_1181625457\DebugComp\RA\ARM\Segger_v8.92.0\JLinkGUIServer.exe
+T5EFC 000:034.638   Looking for J-Link GUI Server exe at: \JLinkGUIServer.exe
+T5EFC 000:341.567   Failed to connect to J-Link GUI Server.
+T5EFC 000:341.658   Updating firmware:  J-Link OB-S124 compiled Aug 13 2025 10:35:02
+T5EFC 000:341.690   Replacing firmware: J-Link OB-S124 compiled May 10 2023 09:55:15
+T5EFC 000:342.180   Looking for J-Link GUI Server exe at: C:\Users\a5166677\.eclipse\com.renesas.platform_1181625457\DebugComp\RA\ARM\Segger_v8.92.0\JLinkGUIServer.exe
+T5EFC 000:342.296   Looking for J-Link GUI Server exe at: \JLinkGUIServer.exe
+T5EFC 000:647.914   Failed to connect to J-Link GUI Server.
+T5EFC 005:270.118   Waiting for new firmware to boot
+T5EFC 006:331.932   New firmware booted successfully
+T5EFC 006:358.387   Hardware: V1.00
+T5EFC 006:358.481   S/N: 831265508
+T5EFC 006:358.515   OEM: SEGGER
+T5EFC 006:358.551   Feature(s): None
+T5EFC 006:361.031   Bootloader: 2019 Oct 15
+T5EFC 006:362.608   USB speed mode: Full speed (12 MBit/s)
+T5EFC 006:364.012   TELNET listener socket opened on port 19021
+T5EFC 006:364.830   WEBSRV WEBSRV_Init(): Starting webserver thread(s)
+T5EFC 006:365.342   WEBSRV Webserver running on local port 19080
+T5EFC 006:365.423 - 6352.688ms returns "O.K."
+T5EFC 006:365.750 JLINK_ExecCommand("ProjectFile=C:\Users\a5166677\e2_studio\workspace\ra2l1_voice_vc_ds22x\ra2l1_voice_vc_ds22x/ra2l1_voice_vc_ds22x.elf (2).jlink", ...). 
+T5EFC 006:401.863 - 36.116ms returns 0x00
+T5EFC 006:403.030 JLINK_ExecCommand("device=R7FA2L1AB", ...). 
+T5EFC 006:404.237   Flash bank @ 0x01010010: SFL: Parsing sectorization info from ELF file
+T5EFC 006:404.340     FlashDevice.SectorInfo[0]: .SectorSize = 0x00000024, .SectorStartAddr = 0x00000000
+T5EFC 006:404.365   FlashBank @0x01010010: Sectorization info from SFL ELF file ignored because sectorization override from DLL / XML file is active.
+T5EFC 006:404.609   Device "R7FA2L1AB" selected.
+T5EFC 006:406.053 - 2.932ms returns 0x00
+T5EFC 006:406.149 JLINK_ExecCommand("SetCPUConnectIDCODE = FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", ...). 
+T5EFC 006:406.177 - 0.004ms returns 0x00
+T5EFC 006:406.258 JLINK_TIF_GetAvailable(...)
+T5EFC 006:407.131 - 0.874ms 
+T5EFC 006:407.315 JLINK_TIF_Select(JLINKARM_TIF_SWD)
+T5EFC 006:410.251 - 2.929ms returns 0x00
+T5EFC 006:410.424 JLINK_SetSpeed(4000)
+T5EFC 006:410.938 - 0.525ms 
+T5EFC 006:411.023 JLINK_SetEndian(ARM_ENDIAN_LITTLE)
+T5EFC 006:411.058 - 0.035ms returns 0
+T5EFC 006:411.093 JLINK_SetInitRegsOnReset(OFF)
+T5EFC 006:411.126 - 0.033ms returns 1
+T5EFC 006:411.162 JLINK_SetResetType(JLINKARM_RESET_TYPE_NO_RESET)
+T5EFC 006:411.195 - 0.033ms returns JLINKARM_RESET_TYPE_NORMAL
+T5EFC 006:411.233 JLINK_ExecCommand("EnableFlashBPs", ...). 
+T5EFC 006:411.271 - 0.000ms returns 0x00
+T5EFC 006:411.309 JLINK_ExecCommand("SetAllowFlashCache = 1", ...). 
+T5EFC 006:411.345 - 0.001ms returns 0x01
+T5EFC 006:411.381 JLINK_ExecCommand("SetRestartOnClose = 0", ...). 
+T5EFC 006:411.416 - 0.001ms returns 0x01
+T5EFC 006:411.451 JLINK_ExecCommand("SetAllowSimulation = 0", ...). 
+T5EFC 006:411.486 - 0.000ms returns 0x01
+T5EFC 006:411.518 JLINK_EnableSoftBPs(ON)
+T5EFC 006:411.552 - 0.033ms 
+T5EFC 006:411.599 JLINK_Connect()
+T5EFC 006:412.488   InitTarget() start
+T5EFC 006:412.574    J-Link Script File: Executing InitTarget()
+T5EFC 006:412.602   Identifying target device...
+T5EFC 006:412.634   SWD selected. Executing JTAG -> SWD switching sequence...
+T5EFC 006:414.017   Initializing DAP...
+T5EFC 006:418.203   DAP initialized successfully.
+T5EFC 006:428.895   Failed to authenticate debugger via IDCODE. Incorrect IDCODE?
+T5EFC 006:429.017   
+  ***** Error: 
+T5EFC 006:429.066   J-Link script file function InitTarget() returned with error code -1
+T5EFC 006:429.117   InitTarget() end - Took 16.4ms
+T5EFC 006:429.201   Connect failed. Resetting via Reset pin and trying again.
+T5EFC 006:491.498   InitTarget() start
+T5EFC 006:491.608    J-Link Script File: Executing InitTarget()
+T5EFC 006:491.645   Identifying target device...
+T5EFC 006:491.692   SWD selected. Executing JTAG -> SWD switching sequence...
+T5EFC 006:493.031   Initializing DAP...
+T5EFC 006:496.879   DAP initialized successfully.
+T5EFC 006:506.939   Failed to authenticate debugger via IDCODE. Incorrect IDCODE?
+T5EFC 006:507.030   
+  ***** Error: 
+T5EFC 006:507.075   J-Link script file function InitTarget() returned with error code -1
+T5EFC 006:507.120   InitTarget() end - Took 15.4ms
+T5EFC 006:507.166 - 95.567ms returns 0xFFFFFFFF
+T5EFC 011:203.738 JLINK_Close()
+T5EFC 011:216.442 - 12.703ms
+T5EFC 011:216.556   
+T5EFC 011:216.576   Closed
