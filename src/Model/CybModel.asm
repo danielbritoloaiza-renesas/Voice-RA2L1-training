@@ -7,6 +7,6 @@
 // Please use level 0 model for 48MHz M0/M23 MCU.
 
 uCYModelBegin:
-.incbin "../src/Model/HiRenesas_OpenCamera_pack_WithTxt_L0.bin"
+.incbin "../src/Model/Test2_pack_WithTxt.bin"
 uCYModelEnd:
 
