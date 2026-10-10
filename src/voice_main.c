@@ -72,6 +72,12 @@
 #define COMMAND_STAGE_TIME_MIN   6000                    // When no result at command recognition stage, the minimum recording time in ms.
 #define COMMAND_STAGE_TIME_MAX   8000                    // When no result at command recognition stage, the maximum recording time in ms.
 #define AGC_MEM_SIZE             64                      // AGC memory size.
+#define MAP_ID_HELLO_DANIEL      0
+#define MAP_ID_LIGHT_RED_ON      0
+#define MAP_ID_LIGHT_RED_OFF     1
+#define MAP_ID_LIGHT_GREEN_ON    2
+#define MAP_ID_LIGHT_GREEN_OFF   3
+#define COMMAND_WAIT_BLINK_FRAMES 50
 
 /*******************************************************************************
  Private global functions
@@ -269,7 +275,7 @@ static void voice_init(void)
     if (FSP_SUCCESS != err)
         __BKPT(0);
 
-    TurnOnLED(LED_R);     //Red   = ON
+    TurnOffLED(LED_R);    // Light output starts off.
     g_nLPMRecordFrameCount = 0;
 
     // Process UART read.
@@ -291,11 +297,9 @@ static bool voice_loop(void)
 {
 	short   saRecordSample[RECORD_FRAME_SAMPLES];
     int     nRet = DSPOTTER_ERR_NeedMoreSample;
-    static  int s_nRBufLostCount = 0;
-    static  int s_nUnderRunCount = 0;
-    static  int s_nLedTurnOnCount = 0;
     static  int s_nCommandRecordSample = 0;
     static  int s_nCommandRecognizeLimit = COMMAND_STAGE_TIME_MIN;
+    static  int s_nCommandWaitBlinkFrameCount = 0;
 
     if (g_bUartCheckAlive)
     {
@@ -317,25 +321,16 @@ static bool voice_loop(void)
 	#ifndef SUPPORT_UART_DUMP_RECORD
     	DBG_UART_TRACE(".");
 	#endif
-        TurnOffLED(LED_B);
     }
 
-    // If the blue LED keeps flashing, it means that the computing power is insufficient
-    // and the recording data is lost, please reduce the command number.
-    if (s_nRBufLostCount != AudioRecordGetLostCount())
+    if (g_nActiveGroupIndex == GROUP_INDEX_TRIGGER)
     {
-        s_nRBufLostCount = AudioRecordGetLostCount();
-        ToggleLED(LED_B);
+        if (++s_nCommandWaitBlinkFrameCount >= COMMAND_WAIT_BLINK_FRAMES)
+        {
+            s_nCommandWaitBlinkFrameCount = 0;
+            ToggleLED(LED_R);
+        }
     }
-
-    if (s_nUnderRunCount != AudioRecordGetUnderRunCount())
-    {
-        s_nUnderRunCount = AudioRecordGetUnderRunCount();
-        ToggleLED(LED_B);
-    }
-
-    if (--s_nLedTurnOnCount == 0)
-    	TurnOffLED(LED_G);
 
     // Get recognize data from recognize ring buffer.
     if (AudioRecordGetData((void*)saRecordSample, RECORD_FRAME_SIZE) != 0)
@@ -402,17 +397,12 @@ static bool voice_loop(void)
                 nCmdIndex, szCommand, nCmdScore, nCmdSGDiff, nCmdEnergy, nMapID);
         DSpotter_Continue(g_hDSpotter);
 
-        // Flicker Green LED to indicate the success of recognition.
-        TurnOnLED(LED_G);
-        s_nLedTurnOnCount = 20;
-
 #ifdef SUPPORT_SPEEX_PLAY
         const BYTE *pbySpeexDataBegin = (const BYTE *)&g_uSpeexDataBegin;
         int nSampleRate;
 
         if (PlaySpeexIsDataValid(pbySpeexDataBegin, nMapID, &nSampleRate))
         {
-            TurnOffLED(LED_R);
             AudioRecordPause();
 
             DSpotter_Release(g_hDSpotter);
@@ -434,21 +424,42 @@ static bool voice_loop(void)
             // Skip record data during play.
             AudioRecordClearData();
             AudioRecordResume();
-            TurnOnLED(LED_R);
         }
-        TurnOffLED(LED_G);
 #endif
         DBG_UART_TRACE("\r\n");
 
-        switch (nMapID)
+        DBG_UART_TRACE("Recognized Map ID: %d\r\n", nMapID);
+        if (g_nActiveGroupIndex == GROUP_INDEX_TRIGGER && nMapID == MAP_ID_HELLO_DANIEL)
         {
-        case 0:
-        case 1:
-            //user's application
-            break;
-        default:
-            //invalid argument
-            break;
+            DBG_UART_TRACE("Wake-up word recognized: Hello Daniel\r\n");
+            TurnOffLED(LED_R);
+            s_nCommandWaitBlinkFrameCount = 0;
+        }
+        else if (g_nActiveGroupIndex == GROUP_INDEX_COMMAND)
+        {
+            s_nCommandWaitBlinkFrameCount = 0;
+            TurnOffLED(LED_R);
+            switch (nMapID)
+            {
+            case MAP_ID_LIGHT_RED_ON:
+                DBG_UART_TRACE("Light red on command recognized; blue LED on\r\n");
+                TurnOnLED(LED_B);
+                break;
+            case MAP_ID_LIGHT_RED_OFF:
+                DBG_UART_TRACE("Light red off command recognized; blue LED off\r\n");
+                TurnOffLED(LED_B);
+                break;
+            case MAP_ID_LIGHT_GREEN_ON:
+                DBG_UART_TRACE("Light green on command recognized\r\n");
+                TurnOnLED(LED_G);
+                break;
+            case MAP_ID_LIGHT_GREEN_OFF:
+                DBG_UART_TRACE("Light green off command recognized\r\n");
+                TurnOffLED(LED_G);
+                break;
+            default:
+                break;
+            }
         }
 
         s_nCommandRecordSample = 0;
@@ -486,6 +497,8 @@ static bool voice_loop(void)
             s_nCommandRecognizeLimit = COMMAND_STAGE_TIME_MIN;
 
             DBG_UART_TRACE("\r\nTimeout for command stage, switch to trigger stage.\r\n");
+            TurnOffLED(LED_R);
+            s_nCommandWaitBlinkFrameCount = 0;
             SetDSpotter(g_hCybModel, GROUP_INDEX_TRIGGER, g_byaDSpotterMem, sizeof(g_byaDSpotterMem), &g_hDSpotter, true);
         }
     }
